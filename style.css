@@ -127,3 +127,10 @@ button {
 		margin-top: 180px;
 	}
 }
+
+.hide {
+	display: none;
+}
+.show {
+	display: inline;
+}

@@ -9,11 +9,14 @@ $(document).ready(function () {
 				$("#toappend").empty();
 				response.tasks.forEach(function (task) {
 					var completedClass = task.completed ? "striked" : "";
+					var hideButton = task.completed ? "hide" : "";
+					var showButton = task.completed ? "show" : "hide";
 					$("#toappend").append(
 						"<div class='todo " +
+							"'>" +
+							"<p class='" +
 							completedClass +
 							"'>" +
-							"<p>" +
 							task.content +
 							"</p>" +
 							"<div>" +
@@ -22,12 +25,16 @@ $(document).ready(function () {
 							"'>" +
 							"Delete" +
 							"</button>" +
-							"<button class='actv' data-id='" +
+							"<button class='actv " +
+							showButton +
+							"' data-id='" +
 							task.id +
 							"'>" +
 							"Active" +
 							"</button>" +
-							"<button class='new-button' data-id='" +
+							"<button class='new-button " +
+							hideButton +
+							"' data-id='" +
 							task.id +
 							"'>" +
 							"Done" +
@@ -68,7 +75,7 @@ $(document).ready(function () {
 						"'>" +
 						"Delete" +
 						"</button>" +
-						"<button class='actv' data-id='" +
+						"<button class='actv hide' data-id='" +
 						response.task.id +
 						"'>" +
 						"Active" +
@@ -124,6 +131,14 @@ $(document).ready(function () {
 					.find("[data-id='" + id + "']")
 					.closest("p")
 					.addClass("completed");
+				$("#toappend")
+					.find("[data-id='" + id + "']")
+					.closest(".new-button")
+					.addClass("hide");
+				$("#toappend")
+					.find("[data-id='" + id + "']")
+					.closest(".actv")
+					.removeClass("hide");
 			},
 			error: function (request, textStatus, errorMessage) {
 				console.log(errorMessage);
@@ -142,7 +157,16 @@ $(document).ready(function () {
 				$("#toappend")
 					.find("[data-id='" + id + "']")
 					.closest(".todo")
+					.find("p")
 					.removeClass("striked");
+				$("#toappend")
+					.find("[data-id='" + id + "']")
+					.closest(".new-button")
+					.removeClass("hide");
+				$("#toappend")
+					.find("[data-id='" + id + "']")
+					.closest(".actv")
+					.addClass("hide");
 			},
 			error: function (request, textStatus, errorMessage) {
 				console.log(errorMessage);
@@ -180,7 +204,7 @@ $(document).ready(function () {
 								"'>" +
 								"Delete" +
 								"</button>" +
-								"<button class='actv' data-id='" +
+								"<button class='actv hide' data-id='" +
 								task.id +
 								"'>" +
 								"Active" +
